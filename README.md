@@ -46,6 +46,14 @@ doc-bridge convert tables.md -o second.csv --table 2
 
 ## 生成 Codex skill
 
+仓库的 `skills/doc-bridge` 是可直接安装的独立 skill。可以告诉 Codex：
+“用 skill-installer 从 MrTager/doc-bridge 的 skills/doc-bridge 安装”。安装范围是当前
+设备的用户 skills 目录，不会自动同步到其他设备。
+
+Word 需要额外的本机 Pandoc 后端。除 PATH 和 Python 的 `pypandoc_binary` 外，skill 也会
+优先识别其目录内的 `bin/pandoc`（Windows 为 `bin/pandoc.exe`）；该二进制不上传仓库。
+CSV 不需要额外安装依赖。
+
 ```sh
 doc-bridge export-skill ./generated/doc-bridge
 # 或直接导出到你配置的 Codex skills 目录（目标目录须不存在）：
@@ -100,6 +108,9 @@ python -m pip install -e '.[word,dev]'
 python -m pytest -q
 python -m build
 ```
+
+修改转换脚本或 skill 模板后，请同步仓库内的 skill 快照（目标必须是新目录，再将生成的
+文件更新到 `skills/doc-bridge`）。测试会核对两者一致性，防止安装到旧版转换逻辑。
 
 测试覆盖特殊字符、中文、空值、前导零、单元格换行、多表选择、覆盖保护、skill 独立执行、
 Word 内容往返及样式参考。缺少 Pandoc 时 Word 测试跳过；CI 安装 Word 依赖后运行。

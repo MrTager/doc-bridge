@@ -21,6 +21,10 @@ class ConversionError(ValueError):
 
 
 def find_pandoc() -> str | None:
+    # An installed standalone skill may carry a platform-local backend here.
+    bundled = Path(__file__).resolve().parent.parent / "bin" / ("pandoc.exe" if os.name == "nt" else "pandoc")
+    if bundled.is_file() and os.access(bundled, os.X_OK):
+        return str(bundled)
     binary = shutil.which("pandoc")
     if binary:
         return binary

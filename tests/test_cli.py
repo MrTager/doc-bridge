@@ -1,10 +1,33 @@
 import subprocess
 import sys
 import base64
+import os
+from pathlib import Path
 
 import pytest
 
 from doc_bridge.cli import find_pandoc, main
+
+
+def test_skill_local_backend(tmp_path, monkeypatch):
+    import doc_bridge.cli as cli
+
+    monkeypatch.setattr(cli, "__file__", str(tmp_path / "scripts" / "doc_bridge.py"))
+    backend = tmp_path / "bin" / ("pandoc.exe" if os.name == "nt" else "pandoc")
+    backend.parent.mkdir()
+    backend.write_text("placeholder", encoding="utf-8")
+    backend.chmod(0o755)
+    assert cli.find_pandoc() == str(backend)
+
+
+def test_repository_skill_is_current(tmp_path):
+    exported = tmp_path / "doc-bridge"
+    assert main(["export-skill", str(exported)]) == 0
+    repository_skill = Path(__file__).resolve().parents[1] / "skills" / "doc-bridge"
+    if not repository_skill.exists():
+        pytest.skip("Source distribution does not include the repository skill snapshot")
+    for relative in ["SKILL.md", "agents/openai.yaml", "scripts/doc_bridge.py"]:
+        assert (exported / relative).read_bytes() == (repository_skill / relative).read_bytes()
 
 
 def test_no_overwrite_and_invalid_pair(tmp_path):

@@ -6,8 +6,10 @@ description: Convert DOCX or CSV to Markdown for text editing, then export back 
 # Document Bridge
 
 Run `python3 <this-skill>/scripts/doc_bridge.py doctor` to check the Word backend.
-CSV conversion needs only Python 3.10+. Word needs Pandoc on PATH or `pypandoc_binary`
-installed in the interpreter running the script. Do not repeatedly retry a missing backend.
+CSV conversion needs only Python 3.10+. Word uses an executable at `<this-skill>/bin/pandoc`
+(`pandoc.exe` on Windows), Pandoc on PATH, or `pypandoc_binary` installed in the interpreter
+running the script, in that order. A bundled backend is platform-specific and is installed
+locally, not committed to the repository. Do not repeatedly retry a missing backend.
 
 ## Content-first editing
 
