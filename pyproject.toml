@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codex-doc-bridge"
+version = "0.1.0"
+description = "Local DOCX/Markdown and CSV/Markdown conversion with an exportable Codex skill"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+word = ["pypandoc_binary>=1.15,<2"]
+dev = ["pytest>=8,<10", "build>=1,<2", "PyYAML>=6,<7"]
+
+[project.scripts]
+doc-bridge = "doc_bridge.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+doc_bridge = ["templates/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

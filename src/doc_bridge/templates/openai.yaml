@@ -1,0 +1,4 @@
+interface:
+  display_name: "Document Bridge"
+  short_description: "Edit DOCX and CSV through local Markdown round trips"
+  default_prompt: "Use $doc-bridge to convert this document to Markdown, edit the relevant content, and export a new file."
