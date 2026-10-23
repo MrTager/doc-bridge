@@ -68,6 +68,8 @@ def test_word_round_trip(tmp_path):
     text = back.read_text(encoding="utf-8")
     for item in ["测试标题", "正文", "加粗", "example.com", "苹果"]:
         assert item in text
+    assert "|" in text
+    assert "------------------------------" not in text
     assert main(["convert", str(markdown), "-o", str(tmp_path / "styled.docx"), "--reference-doc", str(word)]) == 0
 
 

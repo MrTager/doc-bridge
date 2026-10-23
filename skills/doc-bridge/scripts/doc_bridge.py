@@ -169,7 +169,8 @@ def convert_word(source: Path, destination: Path, force: bool, reference: Path |
         markdown = "markdown+pipe_tables+raw_html"
         command = [pandoc, str(source), "--output", str(output), "--wrap=none"]
         if source.suffix.lower() == ".docx":
-            command += ["--from=docx", f"--to={markdown}", "--extract-media", media.name]
+            compact_markdown = markdown + "-simple_tables-multiline_tables-grid_tables"
+            command += ["--from=docx", f"--to={compact_markdown}", "--extract-media", media.name]
         else:
             command += [f"--from={markdown}", "--to=docx", "--resource-path", str(source.parent)]
             if reference:
